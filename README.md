@@ -54,7 +54,3 @@ Delivery method: Home Delivery selected. Your pizza will arrive soon!
 - Add new delivery method (`ExpressDelivery` with surcharge).
 - Add a `DiscountStrategy` (10% off coupon).
 - Add a `ComboPizzaFactory` (meal deals with drink).
-
-
-# repo auto created
-# repo auto created
