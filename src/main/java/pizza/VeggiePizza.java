@@ -1,5 +1,14 @@
 package pizza;
 
 public class VeggiePizza implements Pizza {
-    // TODO: implement getDescription() and getCost()
+    @Override
+    public String getDescription() {
+        return "Veggie Pizza";
+    }
+
+    @Override
+    public double getCost() {
+        return 6.0;
+    }
+
 }
