@@ -13,7 +13,6 @@ public class Order {
     }
 
     public void processOrder() {
-        System.out.println("Order: " + pizza.getDescription() + " $" + pizza.getCost());
-        // TODO: call deliver on the selected strategy
+        deliveryStrategy.deliver(pizza);
     }
 }

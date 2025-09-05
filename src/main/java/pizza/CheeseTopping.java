@@ -7,13 +7,11 @@ public class CheeseTopping extends ToppingDecorator {
 
     @Override
     public String getDescription() {
-        return "";
+        return pizza.getDescription() + ", Cheese";
     }
 
     @Override
     public double getCost() {
-        return 0;
+        return pizza.getCost() + 1.0;
     }
-
-    // TODO: override getDescription() and getCost()
 }
