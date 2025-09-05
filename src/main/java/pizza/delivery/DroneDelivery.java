@@ -1,4 +1,6 @@
-package pizza;
+package pizza.delivery;
+
+import pizza.model.Pizza;
 
 public class DroneDelivery implements DeliveryStrategy {
     @Override

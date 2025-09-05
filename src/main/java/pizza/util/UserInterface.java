@@ -45,4 +45,18 @@ public class UserInterface {
         }
         return numberInput;
     }
+
+    public boolean promptBinary(String msg) {
+        String choice = this.readInput(msg);
+        if(choice.equalsIgnoreCase("Y")){
+            return true;
+        } else if (choice.equalsIgnoreCase("N")) {
+            return false;
+
+        }else{
+            promptBinary(msg);
+
+        }
+        return false;
+    }
 }

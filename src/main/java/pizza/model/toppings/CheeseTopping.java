@@ -1,4 +1,6 @@
-package pizza;
+package pizza.model.toppings;
+
+import pizza.model.Pizza;
 
 public class CheeseTopping extends ToppingDecorator {
     public CheeseTopping(Pizza pizza) {

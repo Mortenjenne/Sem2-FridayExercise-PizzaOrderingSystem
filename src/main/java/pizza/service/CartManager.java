@@ -1,4 +1,6 @@
-package pizza;
+package pizza.service;
+
+import pizza.model.Pizza;
 
 import java.util.ArrayList;
 import java.util.List;

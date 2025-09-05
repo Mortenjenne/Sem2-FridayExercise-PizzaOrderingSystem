@@ -1,6 +1,8 @@
-package pizza;
+package pizza.model.toppings;
 
-public class MushroomTopping extends ToppingDecorator{
+import pizza.model.Pizza;
+
+public class MushroomTopping extends ToppingDecorator {
     public MushroomTopping(Pizza pizza) {
         super(pizza);
     }

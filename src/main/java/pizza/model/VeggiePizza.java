@@ -1,4 +1,4 @@
-package pizza;
+package pizza.model;
 
 public class VeggiePizza implements Pizza {
     @Override

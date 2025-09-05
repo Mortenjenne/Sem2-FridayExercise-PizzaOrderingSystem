@@ -1,4 +1,7 @@
-package pizza;
+package pizza.service;
+
+import pizza.delivery.DeliveryStrategy;
+import pizza.model.Pizza;
 
 public class Order {
     private DeliveryStrategy deliveryStrategy;
