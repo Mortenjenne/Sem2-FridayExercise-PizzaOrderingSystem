@@ -24,7 +24,7 @@ public class PizzaDemo {
         System.out.println(margaritaPep.getDescription() + " $" + margaritaPep.getCost());
         System.out.println("##########################");
 
-        //Order pizza
+        //Order pizzas
         Order newOrder = new Order(veggieCheese);
         newOrder.setDeliveryStrategy(new Pickup());
         newOrder.processOrder();
