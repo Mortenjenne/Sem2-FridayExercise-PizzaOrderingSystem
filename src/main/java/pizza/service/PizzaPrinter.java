@@ -23,6 +23,7 @@ public class PizzaPrinter {
     }
 
     public void printTotal(double total){
-        System.out.printf("%s:  %-80s %.2f\n","#","Total",total);
+        System.out.printf("%s  %-80s $%.2f\n","#","Total",total);
+        System.out.printf("--------------------------------------------------------------------------------------------\n");
     }
 }
