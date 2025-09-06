@@ -3,12 +3,16 @@ package pizza.service;
 import pizza.delivery.DeliveryStrategy;
 import pizza.model.Pizza;
 
+import java.util.List;
+
 public class Order {
     private DeliveryStrategy deliveryStrategy;
-    private Pizza pizza;
+    private PizzaPrinter printer;
+    private CartManager cartManager;
 
-    public Order(Pizza pizza) {
-        this.pizza = pizza;
+    public Order(CartManager cartManager, PizzaPrinter printer) {
+        this.cartManager = cartManager;
+        this.printer = printer;
     }
 
     public void setDeliveryStrategy(DeliveryStrategy deliveryStrategy) {
@@ -16,6 +20,6 @@ public class Order {
     }
 
     public void processOrder() {
-        deliveryStrategy.deliver(pizza);
+        deliveryStrategy.deliver(cartManager,printer);
     }
 }

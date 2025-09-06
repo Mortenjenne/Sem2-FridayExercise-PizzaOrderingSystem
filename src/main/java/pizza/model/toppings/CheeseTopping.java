@@ -8,6 +8,11 @@ public class CheeseTopping extends ToppingDecorator {
     }
 
     @Override
+    public String getName() {
+        return pizza.getName();
+    }
+
+    @Override
     public String getDescription() {
         return pizza.getDescription() + ", Cheese";
     }

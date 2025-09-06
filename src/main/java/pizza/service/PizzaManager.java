@@ -1,6 +1,9 @@
 package pizza.service;
 
-import pizza.model.PizzaType;
+import pizza.delivery.DeliveryStrategy;
+import pizza.delivery.DroneDelivery;
+import pizza.delivery.HomeDelivery;
+import pizza.delivery.Pickup;
 import pizza.model.Pizza;
 import pizza.model.toppings.*;
 import pizza.util.UserInterface;
@@ -21,6 +24,7 @@ public class PizzaManager {
         this.factory = new PizzaFactory();
         this.cart = new CartManager();
         this.pizzaPrinter = new PizzaPrinter();
+        this.order = new Order(cart,pizzaPrinter);
     }
 
     public void start(){
@@ -72,12 +76,14 @@ public class PizzaManager {
     }
 
     private Pizza choosePizza(int choice){
-        PizzaType type;
         while(true){
-            if(isValidTaskNumber(choice)){
-                type = factory.getAvaliblePizzas().get(choice);
-                Pizza pizza = factory.createPizza(type);
-                return pizza;
+            if(isValidTaskNumber(choice)) {
+                try {
+                    String type = factory.getAvaliblePizzas().get(choice).getName();
+                    Pizza pizza = factory.createPizza(type.toUpperCase());
+                    return pizza;
+                } catch (IllegalArgumentException e){
+                }
             }
         }
     }
@@ -150,10 +156,13 @@ public class PizzaManager {
 
     private void checkOut() {
         showShoppingCart();
-        boolean customerWantsToPay = ui.promptBinary("Would you like to pay Y/N");
+        boolean customerWantsToPay = ui.promptBinary("Would you like to pay and choose delivery options Y/N");
 
         if (customerWantsToPay) {
-            printReceipt();
+            DeliveryStrategy delivery = chooseDelivery();
+            order.setDeliveryStrategy(delivery);
+            order.processOrder();
+            cart.clearCart();
         } else {
             ui.printMessage("Checkout cancelled. You can still order more pizzas");
         }
@@ -169,8 +178,26 @@ public class PizzaManager {
         ui.printMessage("Total: " + cart.getTotal() + "$");
     }
 
-    private void chooseDelivery(){
+    private DeliveryStrategy chooseDelivery(){
+        System.out.println("Choose delivery method:");
+        System.out.println("1) Pickup");
+        System.out.println("2) Home Delivery");
+        System.out.println("3) Drone Delivery");
 
+        int choice = ui.promptNumeric("Enter the number of your choice:");
+        DeliveryStrategy strategy;
+        while(true) {
+            switch (choice) {
+                case 1:
+                    return strategy = new Pickup();
+                case 2:
+                    return strategy = new HomeDelivery();
+                case 3:
+                    return strategy = new DroneDelivery();
+                default:
+                    System.out.println("Invalid choice");
+            }
+        }
     }
 
     private void printReceipt(){

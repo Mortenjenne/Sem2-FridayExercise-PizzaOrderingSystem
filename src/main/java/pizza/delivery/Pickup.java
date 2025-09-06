@@ -1,12 +1,17 @@
 package pizza.delivery;
 
-import pizza.model.Pizza;
+import pizza.service.CartManager;
+import pizza.service.PizzaPrinter;
 
 public class Pickup implements DeliveryStrategy {
     @Override
-    public void deliver(Pizza pizza) {
-        System.out.println("Order: " + pizza.getDescription() + " $" + pizza.getCost());
-        System.out.println("Delivery method: Pickup selected. Your pizza will be ready at appointed time\n");
+    public void deliver(CartManager cartManager, PizzaPrinter printer) {
+        double deliveryCost = 0.0;
+        cartManager.addToTotal(deliveryCost);
+        System.out.println("\n--- Your Order ---");
+        printer.print(cartManager.getShoppingCart());
+        printer.printTotal(cartManager.getTotal());
+        System.out.printf("Delivery method: Pickup selected. Delivery cost : %2.f$\n);",deliveryCost);
+        System.out.println("Your pizza will be done as soon as possible!");
     }
-
 }

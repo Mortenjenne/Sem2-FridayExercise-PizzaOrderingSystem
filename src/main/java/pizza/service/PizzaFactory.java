@@ -11,30 +11,31 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class PizzaFactory {
-    private static Map<PizzaType, Supplier<Pizza>> registry = new HashMap<>();
+    private static Map<String,Function<String,Pizza>> registry = new HashMap<>();
 
     static{
-        registry.put(PizzaType.Margherita,MargheritaPizza::new);
-        registry.put(PizzaType.Veggie,VeggiePizza::new);
-        registry.put(PizzaType.PATATE,PotatoPizza::new);
-        registry.put(PizzaType.CAVOLFIORE,CauliflowerTrufflePizza::new);
-        registry.put(PizzaType.PROSCUITTO,ProscuittoPizza::new);
-        registry.put(PizzaType.QUATTRO_FORMAGGIO,QuattroFormaggi::new);
+        registry.put("MARGHERITA", type -> new MargheritaPizza());
+        registry.put("VEGGIE", type -> new VeggiePizza());
+        registry.put("POTATO", type -> new PotatoPizza());
+        registry.put("CAULIFLOWER", type -> new CauliflowerTrufflePizza());
+        registry.put("PROSCIUTTO", type -> new ProscuittoPizza());
+        registry.put("QUATTRO_FORMAGGIO", type -> new QuattroFormaggi());
     }
 
-    public Pizza createPizza(PizzaType type){
-        Supplier<Pizza> creator = registry.get(type);
+    public Pizza createPizza(String type){
+        Function<String,Pizza> creator = registry.get(type);
         if(creator == null){
             throw new IllegalArgumentException("Invalid pizza type" + type);
         }
-        return creator.get();
+        return creator.apply(type);
     }
 
     public List<Pizza> getAvaliblePizzas(){
         return registry.values()
                 .stream()
-                .map(Supplier::get)
-                .sorted(Comparator.comparing(Pizza::getCost))
+                .map(type -> type.apply(""))
+                .sorted(Comparator.comparing((Pizza::getCost)))
                 .collect(Collectors.toList());
     }
+
 }

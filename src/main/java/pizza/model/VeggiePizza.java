@@ -1,9 +1,15 @@
 package pizza.model;
 
-public class VeggiePizza implements Pizza {
+public class VeggiePizza implements Pizza{
+
+    @Override
+    public String getName() {
+        return "Veggie";
+    }
+
     @Override
     public String getDescription() {
-        return "Veggie Pizza";
+        return "Vegetarian pizza with tomato, mozzarella, olives, parmesan and grilled eggplant";
     }
 
     @Override
