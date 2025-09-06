@@ -14,7 +14,7 @@ public class PizzaManager {
     PizzaPrinter pizzaPrinter;
     Order order;
 
-    PizzaManager(String shopName){
+    public PizzaManager(String shopName){
         this.appRunning = true;
         this.shopName = shopName;
         this.ui = new UserInterface(shopName);
@@ -37,7 +37,7 @@ public class PizzaManager {
                     orderPizza();
                     break;
                 case "3":
-                    checkout();
+                    checkOut();
                     break;
                 case "x":
                     quit();
@@ -72,10 +72,10 @@ public class PizzaManager {
     }
 
     private Pizza choosePizza(int choice){
-        PizzaType[] pizzaTypes = PizzaType.values();
+        PizzaType type;
         while(true){
             if(isValidTaskNumber(choice)){
-                PizzaType type = pizzaTypes[choice];
+                type = factory.getAvaliblePizzas().get(choice);
                 Pizza pizza = factory.createPizza(type);
                 return pizza;
             }
@@ -87,7 +87,7 @@ public class PizzaManager {
         int choice = ui.promptNumeric("Which pizza would you like to order? \nChoose by number");
         Pizza pizza = choosePizza(choice - 1);
 
-        boolean userWantsToAddTopping = ui.promptBinary("Would you like to add topping to your pizza?");
+        boolean userWantsToAddTopping = ui.promptBinary("Would you like to add topping to your pizza? Press (Y/N)");
 
         if(userWantsToAddTopping){
             pizza = selectTopping(pizza);
@@ -99,7 +99,7 @@ public class PizzaManager {
     private void handleMultiplePizzaOrder(){
         boolean continueOrdering = true;
         while (continueOrdering) {
-            continueOrdering = ui.promptBinary("Do you want order more pizza?");
+            continueOrdering = ui.promptBinary("Do you want order more pizza? Press (Y/N)");
             if (continueOrdering) {
                 selectPizza();
             } else {
@@ -115,7 +115,7 @@ public class PizzaManager {
 
         while (addingToppings){
             ui.printMessage("Choose a topping:");
-            ui.printMessage("1) Cheese \n2) Mushrooms \n3) Olive \n4) Pancetta \nPepperoni \nJalapenos \nx) Done");
+            ui.printMessage("1) Cheese \n2) Mushrooms \n3) Olive \n4) Pancetta \n5) Pepperoni \n6) Jalapenos \nx) Done");
 
             String choice = ui.readInput("Your choice:");
             switch (choice){
@@ -147,39 +147,43 @@ public class PizzaManager {
         return decoratedPizza;
     }
 
-//    private void showShoppingCart() {
-//        if (cart.getShoppingCart().isEmpty()) {
-//            ui.printMessage("None pizza's has been added to your order");
-//        } else {
-//            ui.printMessage("Your order:");
-//            showFlowersInBasket();
-//            ui.printMessage("Total: " + cartManager.getTotal() + " Kr.");
-//        }
-//    }
 
     private void checkOut() {
-        if (cart.getShoppingCart().isEmpty()) {
+        showShoppingCart();
+        boolean customerWantsToPay = ui.promptBinary("Would you like to pay Y/N");
+
+        if (customerWantsToPay) {
+            printReceipt();
+        } else {
+            ui.printMessage("Checkout cancelled. You can still order more pizzas");
+        }
+    }
+
+    private void showShoppingCart() {
+        if (cart.getShoppingCart() == null || cart.getShoppingCart().isEmpty()) {
             ui.printMessage("None pizza's has been added to your order");
             return;
         }
+        ui.printMessage("Your order:");
+        pizzaPrinter.print(cart.getShoppingCart());
+        ui.printMessage("Total: " + cart.getTotal() + "$");
+    }
 
-        boolean pay = ui.promptBinary("Would you like to pay Y/N");
-        if (pay) {
+    private void chooseDelivery(){
+
+    }
+
+    private void printReceipt(){
             ui.printMessage("---Receipt---");
             pizzaPrinter.print(cart.getShoppingCart());
             ui.printMessage("----------------");
             ui.printMessage("Total: " + cart.getTotal() + "$");
-            ui.printMessage("Tak for dit køb");
+            ui.printMessage("Thank you for your order");
             cart.clearCart();
-        }
     }
 
     private void quit() {
         ui.printMessage("Thank you for visiting " + shopName);
         appRunning = false;
     }
-
-
-
-
 }

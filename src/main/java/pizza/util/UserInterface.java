@@ -14,9 +14,12 @@ public class UserInterface {
 
     public void showMenu() {
         System.out.println("");
-        System.out.println(shopName);
+        System.out.println("==================================");
+        System.out.println("🍕 Welcome to " + shopName +" Shop 🍕   ");
+        System.out.println("==================================");
         System.out.println("1) Menu");
         System.out.println("2) Order pizza");
+        System.out.println("3) Checkout");
         System.out.println("x) Quit");
     }
 

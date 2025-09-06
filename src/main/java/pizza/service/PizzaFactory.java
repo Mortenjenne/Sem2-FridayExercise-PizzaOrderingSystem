@@ -2,6 +2,7 @@ package pizza.service;
 
 import pizza.model.*;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,7 @@ public class PizzaFactory {
         return registry.values()
                 .stream()
                 .map(Supplier::get)
+                .sorted(Comparator.comparing(Pizza::getCost))
                 .collect(Collectors.toList());
     }
 }
