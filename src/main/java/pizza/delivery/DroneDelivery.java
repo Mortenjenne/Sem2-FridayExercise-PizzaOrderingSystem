@@ -13,8 +13,9 @@ public class DroneDelivery implements DeliveryStrategy {
         cartManager.addToTotal(deliveryCost);
         System.out.println("\n--- Your Order ---");
         printer.print(cartManager.getShoppingCart());
+        System.out.println("Delivery method: Drone Delivery selected");
+        printer.printDeliveryFee(deliveryCost);
         printer.printTotal(cartManager.getTotal());
-        System.out.printf("Delivery method: Drone Delivery selected. Delivery cost : %2.f$\n");
         System.out.println("Your pizza will arrive soon!\n");
     }
 

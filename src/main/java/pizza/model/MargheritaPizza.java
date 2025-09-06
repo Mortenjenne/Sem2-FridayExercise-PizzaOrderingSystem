@@ -9,7 +9,7 @@ public class MargheritaPizza implements Pizza {
 
     @Override
     public String getDescription() {
-        return "Margherita Pizza with tomato sauce, mozzarella and basil";
+        return "Margherita pizza with tomato, mozzarella and basil";
     }
 
     @Override

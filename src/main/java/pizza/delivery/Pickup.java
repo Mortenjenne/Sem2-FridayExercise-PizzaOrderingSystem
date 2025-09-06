@@ -10,8 +10,9 @@ public class Pickup implements DeliveryStrategy {
         cartManager.addToTotal(deliveryCost);
         System.out.println("\n--- Your Order ---");
         printer.print(cartManager.getShoppingCart());
+        System.out.println("Delivery method: Pickup selected.");
+        printer.printDeliveryFee(deliveryCost);
         printer.printTotal(cartManager.getTotal());
-        System.out.printf("Delivery method: Pickup selected. Delivery cost : %2.f$\n);",deliveryCost);
         System.out.println("Your pizza will be done as soon as possible!");
     }
 }
