@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class PizzaFactory {
@@ -19,7 +18,7 @@ public class PizzaFactory {
         registry.put("POTATO", type -> new PotatoPizza());
         registry.put("CAULIFLOWER", type -> new CauliflowerTrufflePizza());
         registry.put("PROSCIUTTO", type -> new ProscuittoPizza());
-        registry.put("QUATTRO_FORMAGGIO", type -> new QuattroFormaggi());
+        registry.put("QUATTRO_FORMAGGIO", type -> new QuattroFormaggio());
     }
 
     public Pizza createPizza(String type){

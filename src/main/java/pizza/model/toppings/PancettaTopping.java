@@ -14,11 +14,11 @@ public class PancettaTopping extends ToppingDecorator{
 
     @Override
     public String getDescription() {
-        return ", Pancetta";
+        return pizza.getDescription() + ", Pancetta";
     }
 
     @Override
     public double getCost() {
-        return 4.0;
+        return pizza.getCost() + 4.0;
     }
 }

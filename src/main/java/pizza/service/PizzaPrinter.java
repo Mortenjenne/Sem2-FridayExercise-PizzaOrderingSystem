@@ -22,6 +22,10 @@ public class PizzaPrinter {
         }
     }
 
+    public void printDeliveryFee(double fee){
+        System.out.printf("%s  %-80s $%.2f\n","#","Delivery cost",fee);
+    }
+
     public void printTotal(double total){
         System.out.printf("%s  %-80s $%.2f\n","#","Total",total);
         System.out.printf("--------------------------------------------------------------------------------------------\n");

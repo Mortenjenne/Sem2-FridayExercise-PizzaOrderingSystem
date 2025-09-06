@@ -34,21 +34,11 @@ public class PizzaManager {
             String input = ui.readInput("Awaiting command...");
 
             switch (input){
-                case "1":
-                    showMenu();
-                    break;
-                case "2":
-                    orderPizza();
-                    break;
-                case "3":
-                    checkOut();
-                    break;
-                case "x":
-                    quit();
-                    break;
-                default:
-                    ui.printMessage("Didnt recognize this command, try again.");
-                    break;
+                case "1" -> showMenu();
+                case "2" -> orderPizza();
+                case "3" -> checkOut();
+                case "x" -> quit();
+                default -> ui.printMessage("Didnt recognize this command, try again.");
             }
         }
     }
@@ -62,36 +52,32 @@ public class PizzaManager {
         handleMultiplePizzaOrder();
     }
 
-    private void checkout(){
 
+    private boolean isValidIndex(int index){
+        return index >= 0 && index < factory.getAvaliblePizzas().size();
     }
 
-    private boolean isValidTaskNumber(int index){
-        if(index >= 0 && index < factory.getAvaliblePizzas().size()){
-            return true;
-        } else {
-            ui.printMessage("Invalid task number. Please enter a number between 1 and " + factory.getAvaliblePizzas().size());
-            return false;
-        }
-    }
-
-    private Pizza choosePizza(int choice){
-        while(true){
-            if(isValidTaskNumber(choice)) {
+    private Pizza choosePizza(){
+        Pizza pizza = null;
+        while (pizza == null){
+            int choice = ui.promptNumeric("Which pizza would you like to order? \nChoose by number");
+            choice--;
+            if(isValidIndex(choice)){
                 try {
                     String type = factory.getAvaliblePizzas().get(choice).getName();
-                    Pizza pizza = factory.createPizza(type.toUpperCase());
-                    return pizza;
+                    pizza = factory.createPizza(type.toUpperCase());
                 } catch (IllegalArgumentException e){
                 }
+            } else {
+                ui.printMessage("Invalid pizza number. Please enter a number between 1 and " + factory.getAvaliblePizzas().size());
             }
         }
+        return pizza;
     }
 
     private void selectPizza(){
         showMenu();
-        int choice = ui.promptNumeric("Which pizza would you like to order? \nChoose by number");
-        Pizza pizza = choosePizza(choice - 1);
+        Pizza pizza = choosePizza();
 
         boolean userWantsToAddTopping = ui.promptBinary("Would you like to add topping to your pizza? Press (Y/N)");
 
@@ -123,31 +109,17 @@ public class PizzaManager {
             ui.printMessage("Choose a topping:");
             ui.printMessage("1) Cheese \n2) Mushrooms \n3) Olive \n4) Pancetta \n5) Pepperoni \n6) Jalapenos \nx) Done");
 
-            String choice = ui.readInput("Your choice:");
+            String choice = ui.readInput("Your choice:").trim().toLowerCase();
+
             switch (choice){
-                case "1":
-                    decoratedPizza = new CheeseTopping(decoratedPizza);
-                    break;
-                case "2":
-                    decoratedPizza = new MushroomTopping(decoratedPizza);
-                    break;
-                case "3":
-                    decoratedPizza = new OlivesTopping(decoratedPizza);
-                    break;
-                case "4":
-                    decoratedPizza = new PancettaTopping(decoratedPizza);
-                    break;
-                case "5":
-                    decoratedPizza = new PepperoniTopping(decoratedPizza);
-                    break;
-                case "6":
-                    decoratedPizza = new JalapenosTopping(decoratedPizza);
-                    break;
-                case "x":
-                    addingToppings = false;
-                    break;
-                default:
-                    ui.printMessage("Invalid choice. Try again");
+                case "1" -> decoratedPizza = new CheeseTopping(decoratedPizza);
+                case "2" -> decoratedPizza = new MushroomTopping(decoratedPizza);
+                case "3" -> decoratedPizza = new OlivesTopping(decoratedPizza);
+                case "4" -> decoratedPizza = new PancettaTopping(decoratedPizza);
+                case "5" -> decoratedPizza = new PepperoniTopping(decoratedPizza);
+                case "6" -> decoratedPizza = new JalapenosTopping(decoratedPizza);
+                case "x" -> addingToppings = false;
+                default -> ui.printMessage("Invalid choice. Try again");
             }
         }
         return decoratedPizza;
@@ -156,13 +128,13 @@ public class PizzaManager {
 
     private void checkOut() {
         showShoppingCart();
+        if(cart.getShoppingCart().isEmpty()){
+            return;
+        }
         boolean customerWantsToPay = ui.promptBinary("Would you like to pay and choose delivery options Y/N");
 
         if (customerWantsToPay) {
-            DeliveryStrategy delivery = chooseDelivery();
-            order.setDeliveryStrategy(delivery);
-            order.processOrder();
-            cart.clearCart();
+            executeOrder();
         } else {
             ui.printMessage("Checkout cancelled. You can still order more pizzas");
         }
@@ -175,7 +147,7 @@ public class PizzaManager {
         }
         ui.printMessage("Your order:");
         pizzaPrinter.print(cart.getShoppingCart());
-        ui.printMessage("Total: " + cart.getTotal() + "$");
+        pizzaPrinter.printTotal(cart.getTotal());
     }
 
     private DeliveryStrategy chooseDelivery(){
@@ -184,29 +156,26 @@ public class PizzaManager {
         System.out.println("2) Home Delivery");
         System.out.println("3) Drone Delivery");
 
-        int choice = ui.promptNumeric("Enter the number of your choice:");
-        DeliveryStrategy strategy;
-        while(true) {
+        DeliveryStrategy strategy = null;
+
+        while(strategy == null) {
+            String choice = ui.readInput("Enter the number of your choice:");
+
             switch (choice) {
-                case 1:
-                    return strategy = new Pickup();
-                case 2:
-                    return strategy = new HomeDelivery();
-                case 3:
-                    return strategy = new DroneDelivery();
-                default:
-                    System.out.println("Invalid choice");
+                case "1" -> strategy = new Pickup();
+                case "2" -> strategy = new HomeDelivery();
+                case "3" -> strategy = new DroneDelivery();
+                default -> ui.printMessage("Invalid choice");
             }
         }
+        return strategy;
     }
 
-    private void printReceipt(){
-            ui.printMessage("---Receipt---");
-            pizzaPrinter.print(cart.getShoppingCart());
-            ui.printMessage("----------------");
-            ui.printMessage("Total: " + cart.getTotal() + "$");
-            ui.printMessage("Thank you for your order");
-            cart.clearCart();
+    private void executeOrder(){
+        DeliveryStrategy delivery = chooseDelivery();
+        order.setDeliveryStrategy(delivery);
+        order.processOrder();
+        cart.clearCart();
     }
 
     private void quit() {

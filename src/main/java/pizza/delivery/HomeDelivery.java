@@ -13,7 +13,8 @@ public class HomeDelivery implements DeliveryStrategy {
         cartManager.addToTotal(deliveryCost);
         System.out.println("\n--- Your Order ---");
         printer.print(cartManager.getShoppingCart());
-        System.out.printf("Delivery method: Home Delivery selected. Delivery cost : %.2f$\n",deliveryCost);
+        System.out.println("Delivery method: Home Delivery selected.\n");
+        printer.printDeliveryFee(deliveryCost);
         printer.printTotal(cartManager.getTotal());
         System.out.println("Your pizza will arrive soon!\n");
     }

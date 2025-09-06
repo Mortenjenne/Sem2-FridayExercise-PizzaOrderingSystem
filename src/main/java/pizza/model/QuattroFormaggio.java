@@ -1,10 +1,10 @@
 package pizza.model;
 
-public class QuattroFormaggi implements Pizza{
+public class QuattroFormaggio implements Pizza{
 
     @Override
     public String getName() {
-        return "Quattro_Formaggi";
+        return "Quattro_Formaggio";
     }
 
     @Override
