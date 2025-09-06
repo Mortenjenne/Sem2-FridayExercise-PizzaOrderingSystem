@@ -1,5 +1,7 @@
 package pizza.service;
 
+import pizza.discount.DiscountStrategy;
+import pizza.discount.NoDiscount;
 import pizza.model.Pizza;
 
 import java.util.ArrayList;
@@ -8,10 +10,12 @@ import java.util.List;
 public class CartManager {
     private double total;;
     private List<Pizza> shoppingCart;
+    private DiscountStrategy discount;
 
     public CartManager() {
         this.total = 0;
         this.shoppingCart = new ArrayList<>();
+        this.discount = new NoDiscount();
     }
 
     public void addToTotal(double amount) {
@@ -19,7 +23,8 @@ public class CartManager {
     }
 
     public double getTotal() {
-        return Math.round(this.total * 100.0) / 100.0;
+        double totalAfterDiscount = discount.applyDiscount(total);
+        return Math.round(totalAfterDiscount * 100.0) / 100.0;
     }
 
 
@@ -35,6 +40,10 @@ public class CartManager {
     public void clearCart() {
         this.shoppingCart.clear();
         this.total = 0;
+    }
+
+    public void setDiscount(DiscountStrategy discount){
+        this.discount = discount;
     }
 }
 

@@ -4,6 +4,7 @@ import pizza.delivery.DeliveryStrategy;
 import pizza.delivery.DroneDelivery;
 import pizza.delivery.HomeDelivery;
 import pizza.delivery.Pickup;
+import pizza.discount.TenPercentDiscount;
 import pizza.model.Pizza;
 import pizza.model.toppings.*;
 import pizza.util.UserInterface;
@@ -134,6 +135,7 @@ public class PizzaManager {
         boolean customerWantsToPay = ui.promptBinary("Would you like to pay and choose delivery options Y/N");
 
         if (customerWantsToPay) {
+            applyDiscountOption();
             executeOrder();
         } else {
             ui.printMessage("Checkout cancelled. You can still order more pizzas");
@@ -148,6 +150,14 @@ public class PizzaManager {
         ui.printMessage("Your order:");
         pizzaPrinter.print(cart.getShoppingCart());
         pizzaPrinter.printTotal(cart.getTotal());
+    }
+
+    private void applyDiscountOption() {
+        boolean hasCoupon = ui.promptBinary("Do you have a discount coupon? (Y/N)");
+        if (hasCoupon) {
+            cart.setDiscount(new TenPercentDiscount());
+            ui.printMessage("10% discount applied!");
+        }
     }
 
     private DeliveryStrategy chooseDelivery(){
