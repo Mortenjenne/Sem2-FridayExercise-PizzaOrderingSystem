@@ -1,9 +1,15 @@
 package pizza.model;
 
 public class PotatoPizza implements Pizza{
+
+    @Override
+    public String getName() {
+        return "Potato";
+    }
+
     @Override
     public String getDescription() {
-        return "Potato pizza with rosemary";
+        return "Potato pizza with ricotta and rosemary";
     }
 
     @Override

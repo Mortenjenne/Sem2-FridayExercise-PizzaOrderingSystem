@@ -15,16 +15,16 @@ public class PizzaDemo {
         PizzaFactory factory = new PizzaFactory();
 
         // Base pizzas
-        Pizza margarita = factory.createPizza(PizzaType.Margherita);
-        Pizza veggie = factory.createPizza(PizzaType.Veggie);
+        Pizza margarita = factory.createPizza("MARGARITA");
+        Pizza veggie = factory.createPizza("VEGGIE");
 
         System.out.println(margarita.getDescription() + " $" + margarita.getCost());
         System.out.println(veggie.getDescription() + " $" + veggie.getCost());
         System.out.println("######################");
 
         // Decorated pizzas
-        Pizza veggieCheese = factory.createPizza(PizzaType.Veggie);
-        Pizza margaritaPep = factory.createPizza(PizzaType.Margherita);
+        Pizza veggieCheese = factory.createPizza("VEGGIE");
+        Pizza margaritaPep = factory.createPizza("MARGARITA");
 
         veggieCheese = new CheeseTopping(veggieCheese);
         margaritaPep = new CheeseTopping(margaritaPep);
@@ -35,9 +35,9 @@ public class PizzaDemo {
         System.out.println("##########################");
 
         //Order pizzas
-        Order newOrder = new Order(veggieCheese);
-        newOrder.setDeliveryStrategy(new Pickup());
-        newOrder.processOrder();
+        //Order newOrder = new Order(veggieCheese);
+        //newOrder.setDeliveryStrategy(new Pickup());
+        //newOrder.processOrder();
 
         List<Pizza> pizzaList = factory.getAvaliblePizzas();
         pizzaList.forEach(pizza -> pizza.getDescription());

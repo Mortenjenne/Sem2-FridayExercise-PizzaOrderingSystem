@@ -8,8 +8,13 @@ public class PancettaTopping extends ToppingDecorator{
     }
 
     @Override
+    public String getName() {
+        return pizza.getName();
+    }
+
+    @Override
     public String getDescription() {
-        return "Pancetta";
+        return ", Pancetta";
     }
 
     @Override
