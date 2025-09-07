@@ -185,6 +185,7 @@ public class PizzaManager {
         DeliveryStrategy delivery = chooseDelivery();
         order.setDeliveryStrategy(delivery);
         order.processOrder();
+        ui.printMessage("Thank you for your order! Bon Appetito! 🍕");
         cart.clearCart();
     }
 
